@@ -279,9 +279,14 @@ with col2:
         "Resistivity (Ω·m)": rho,
         "Thickness (m)": [*thicknesses, np.nan],
         "Note": [""] * (n_layers - 1) + ["Half-space"],
-        "Facteur K" : k_w,
-    })
+         })
     st.dataframe(model_df, use_container_width=True)
+    
+    model_df = pd.DataFrame({    
+        "Facteur K" : k_w,
+         })
+    st.dataframe(model_df, use_container_width=True)
+    
 
 # ==============================================================
 # 6) FOOTNOTE — teaching notes
