@@ -201,12 +201,14 @@ col1, col2 = st.columns([2, 1])
 with col1:
     st.subheader("Sounding curves (log–log)")
     if ok:
+        # Créer une nouvelle figure pour Streamlit à chaque update
         fig, ax = plt.subplots(figsize=(7, 5))
+        ax.cla()  # Nettoyer la figure pour éviter le “reste” des anciennes couleurs
 
-        # Générer une palette dynamique pour n_layers couches
+        # Générer des couleurs dynamiques pour n_layers couches
         from matplotlib.cm import get_cmap
-        cmap_s = get_cmap('viridis', n_layers)   # Schlumberger
-        cmap_w = get_cmap('plasma', n_layers)    # Wenner
+        cmap_s = get_cmap('viridis')   # Schlumberger
+        cmap_w = get_cmap('plasma')    # Wenner
 
         # Découper AB2 en segments correspondant aux couches
         segments = np.array_split(np.arange(len(AB2)), n_layers)
@@ -215,7 +217,7 @@ with col1:
         for i, idx in enumerate(segments):
             ax.loglog(
                 AB2[idx], rho_app_s[idx], 'o-',
-                color=cmap_s(i),
+                color=cmap_s(i / max(n_layers-1, 1)),  # Normaliser i pour cmap
                 label=f'Schlumberger C{i+1}' if i == 0 else None
             )
 
@@ -223,7 +225,7 @@ with col1:
         for i, idx in enumerate(segments):
             ax.loglog(
                 AB2[idx], rho_app_w[idx], 's--',
-                color=cmap_w(i),
+                color=cmap_w(i / max(n_layers-1, 1)),  # Normaliser i pour cmap
                 label=f'Wenner C{i+1}' if i == 0 else None
             )
 
