@@ -201,35 +201,38 @@ col1, col2 = st.columns([2, 1])
 with col1:
     st.subheader("Sounding curves (log–log)")
     if ok:
-        # Créer une nouvelle figure pour Streamlit à chaque update
+        # Créer figure
         fig, ax = plt.subplots(figsize=(7, 5))
-        ax.cla()  # Nettoyer la figure pour éviter le “reste” des anciennes couleurs
+        ax.cla()  # Nettoyer la figure pour Streamlit
 
-        # Générer des couleurs dynamiques pour n_layers couches
-        from matplotlib.cm import get_cmap
-        cmap_s = get_cmap('viridis')   # Schlumberger
-        cmap_w = get_cmap('plasma')    # Wenner
+        # Générer des couleurs flashy cohérentes pour n_layers
+        import matplotlib.colors as mcolors
+        from matplotlib.colors import hsv_to_rgb
+
+        def flashy_colors(n):
+            # n couleurs evenly spaced in HSV hue, saturation=0.9, value=0.9
+            return [hsv_to_rgb((i/n, 0.9, 0.9)) for i in range(n)]
+
+        colors = flashy_colors(n_layers)
 
         # Découper AB2 en segments correspondant aux couches
         segments = np.array_split(np.arange(len(AB2)), n_layers)
 
-        # Tracer Schlumberger par segment avec couleurs dynamiques
+        # Tracer Schlumberger par segment avec couleurs flashy
         for i, idx in enumerate(segments):
             ax.loglog(
-                AB2[idx], rho_app_s[idx], 'o-',
-                color=cmap_s(i / max(n_layers-1, 1)),  # Normaliser i pour cmap
+                AB2[idx], rho_app_s[idx], 'o-', color=colors[i],
                 label=f'Schlumberger C{i+1}' if i == 0 else None
             )
 
-        # Tracer Wenner par segment avec couleurs dynamiques
+        # Tracer Wenner par segment avec mêmes couleurs mais style différent
         for i, idx in enumerate(segments):
             ax.loglog(
-                AB2[idx], rho_app_w[idx], 's--',
-                color=cmap_w(i / max(n_layers-1, 1)),  # Normaliser i pour cmap
+                AB2[idx], rho_app_w[idx], 's--', color=colors[i],
                 label=f'Wenner C{i+1}' if i == 0 else None
             )
 
-        # Limites y autour des courbes
+        # Limites y
         ymin = np.minimum(rho_app_s.min(), rho_app_w.min())
         ymax = np.maximum(rho_app_s.max(), rho_app_w.max())
         ymin = 10 ** np.floor(np.log10(ymin))
@@ -243,8 +246,9 @@ with col1:
         ax.grid(True, which='both', ls=':', alpha=0.7)
         ax.legend()
 
-        # Affichage dans Streamlit
+        # Affichage Streamlit
         st.pyplot(fig, clear_figure=True)
+
 
 
 
