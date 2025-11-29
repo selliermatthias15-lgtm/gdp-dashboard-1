@@ -203,42 +203,46 @@ with col1:
     if ok:
         fig, ax = plt.subplots(figsize=(7, 5))
 
-        fig, ax = plt.subplots(figsize=(7, 5))
+        # Couleurs pour chaque couche (max 5)
+        couche_colors = ['#fefbd8', '#ffdfba', '#ffc8c8', '#b0e0e6', '#87cefa'][:n_layers]
 
-# Couleurs pour chaque couche (max 5)
-couche_colors = ['#fefbd8', '#ffdfba', '#ffc8c8', '#b0e0e6', '#87cefa'][:n_layers]
+        # Supposons que chaque point correspond à une couche (ou assignation simplifiée)
+        # Ici on répartit uniformément AB2 en n_layers segments
+        segments = np.array_split(np.arange(len(AB2)), n_layers)
 
-# Supposons que chaque point correspond à une couche (ou assignation simplifiée)
-# Ici on répartit uniformément AB2 en n_layers segments
-segments = np.array_split(np.arange(len(AB2)), n_layers)
+        # Tracer Schlumberger par segment de couleur
+        for i, idx in enumerate(segments):
+            ax.loglog(
+                AB2[idx], rho_app_s[idx], 'o-', 
+                color=couche_colors[i], 
+                label=f'Schlumberger C{i+1}' if i == 0 else None
+            )
 
-# Tracer Schlumberger par segment de couleur
-for i, idx in enumerate(segments):
-    ax.loglog(AB2[idx], rho_app_s[idx], 'o-', color=couche_colors[i], label=f'Schlumberger C{i+1}' if i==0 else None)
+        # Tracer Wenner par segment de couleur
+        for i, idx in enumerate(segments):
+            ax.loglog(
+                AB2[idx], rho_app_w[idx], 's--', 
+                color=couche_colors[i], 
+                label=f'Wenner C{i+1}' if i == 0 else None
+            )
 
-# Tracer Wenner par segment de couleur
-for i, idx in enumerate(segments):
-    ax.loglog(AB2[idx], rho_app_w[idx], 's--', color=couche_colors[i], label=f'Wenner C{i+1}' if i==0 else None)
+        # Limites y autour des courbes
+        ymin = np.minimum(rho_app_s.min(), rho_app_w.min())
+        ymax = np.maximum(rho_app_s.max(), rho_app_w.max())
+        ymin = 10 ** np.floor(np.log10(ymin))
+        ymax = 10 ** np.ceil(np.log10(ymax))
+        ax.set_ylim(ymin, ymax)
 
-# Limites y autour des courbes
-ymin = np.minimum(rho_app_s.min(), rho_app_w.min())
-ymax = np.maximum(rho_app_s.max(), rho_app_w.max())
-ymin = 10 ** np.floor(np.log10(ymin))
-ymax = 10 ** np.ceil(np.log10(ymax))
-ax.set_ylim(ymin, ymax)
-
-# Grille et labels
-ax.set_xlabel("AB/2 (m)")
-ax.set_ylabel("Apparent resistivity (Ω·m)")
-ax.set_title("Schlumberger vs Wenner — 1D VES (forward) par couche")
-ax.grid(True, which='both', ls=':', alpha=0.7)
-ax.legend()
-
-st.pyplot(fig, clear_figure=True)
-
+        # Grille et labels
+        ax.set_xlabel("AB/2 (m)")
+        ax.set_ylabel("Apparent resistivity (Ω·m)")
+        ax.set_title("Schlumberger vs Wenner — 1D VES (forward) par couche")
+        ax.grid(True, which='both', ls=':', alpha=0.7)
+        ax.legend()
 
         # Affichage dans Streamlit
         st.pyplot(fig, clear_figure=True)
+
 
 
 # --- RIGHT: Layered model visualization ---
