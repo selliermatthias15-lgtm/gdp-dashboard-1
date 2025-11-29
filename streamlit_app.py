@@ -62,7 +62,7 @@ with st.sidebar:
 
     # Number of layers
     n_layers = st.slider(
-        "Number of layers", 2, 3, 4, 5,
+        "Number of layers", 2, 3, 5, 4,
         help="Total layers (last layer is a half-space)."
     )
 
