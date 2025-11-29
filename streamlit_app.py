@@ -203,27 +203,27 @@ with col1:
     if ok:
         fig, ax = plt.subplots(figsize=(7, 5))
 
-        # Couleurs vives pour chaque couche
+        # Générer une palette dynamique pour n_layers couches
         from matplotlib.cm import get_cmap
-        cmap_s = get_cmap('tab10')  # Schlumberger, couleurs vives
-        cmap_w = get_cmap('tab20')  # Wenner, encore plus contrastées
+        cmap_s = get_cmap('viridis', n_layers)   # Schlumberger
+        cmap_w = get_cmap('plasma', n_layers)    # Wenner
 
         # Découper AB2 en segments correspondant aux couches
         segments = np.array_split(np.arange(len(AB2)), n_layers)
 
-        # Tracer Schlumberger par segment avec couleurs vives
+        # Tracer Schlumberger par segment avec couleurs dynamiques
         for i, idx in enumerate(segments):
             ax.loglog(
                 AB2[idx], rho_app_s[idx], 'o-',
-                color=cmap_s(i % 10),  # tab10 a 10 couleurs max, on boucle si >10
+                color=cmap_s(i),
                 label=f'Schlumberger C{i+1}' if i == 0 else None
             )
 
-        # Tracer Wenner par segment avec couleurs vives
+        # Tracer Wenner par segment avec couleurs dynamiques
         for i, idx in enumerate(segments):
             ax.loglog(
                 AB2[idx], rho_app_w[idx], 's--',
-                color=cmap_w(i % 20),  # tab20 a 20 couleurs max
+                color=cmap_w(i),
                 label=f'Wenner C{i+1}' if i == 0 else None
             )
 
@@ -243,7 +243,6 @@ with col1:
 
         # Affichage dans Streamlit
         st.pyplot(fig, clear_figure=True)
-
 
 
 
