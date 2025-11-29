@@ -62,7 +62,7 @@ with st.sidebar:
 
     # Number of layers
     n_layers = st.slider(
-        "Number of layers", 3, 5, 4,
+        "Number of layers", 2, 3, 4, 5, 6
         help="Total layers (last layer is a half-space)."
     )
 
@@ -216,7 +216,7 @@ with col1:
         # Tracer Schlumberger par segment avec couleurs dynamiques
         for i, idx in enumerate(segments):
             ax.loglog(
-                AB2[idx], rho_app_s[idx], 'o-',
+                AB2[idx], rho_app_s[idx], 'o--',
                 color=cmap_s(i / max(n_layers-1, 1)),  # Normaliser i pour cmap
                 label=f'Schlumberger C{i+1}' if i == 0 else None
             )
