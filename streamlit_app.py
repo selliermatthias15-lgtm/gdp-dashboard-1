@@ -174,8 +174,6 @@ sim_s = dc.simulation_1d.Simulation1DLayers(
     rhoMap=rho_map,
     thicknesses=thicknesses,
 )
-# Calcul de deltaV_w
-    deltaV_w = rho * I / k_w
 
 # Wenner simulation
 sim_w = dc.simulation_1d.Simulation1DLayers(
@@ -183,8 +181,7 @@ sim_w = dc.simulation_1d.Simulation1DLayers(
     rhoMap=rho_map,
     thicknesses=thicknesses,
 )
-    # Calcul de la différence de potentiel pour chaque configuration
-    deltaV_s = rho * I / k_s
+
 try:
     rho_app_s = sim_s.dpred(rho)
     rho_app_w = sim_w.dpred(rho)
