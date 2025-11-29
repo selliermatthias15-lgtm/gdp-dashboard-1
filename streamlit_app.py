@@ -288,7 +288,6 @@ with col2:
     
     Data_meh = pd.DataFrame({
         "Facteur k": [k_w, k_s],
-        "Schmilblick": [AB2[0], AB2[-1]],
         })
     st.dataframe(Data_meh, use_container_width=True)
     
