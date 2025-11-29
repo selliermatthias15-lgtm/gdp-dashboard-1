@@ -205,7 +205,7 @@ with col1:
 
         # Générer des couleurs pour chaque courbe selon le nombre de couches
         from matplotlib.cm import get_cmap
-        cmap_s = get_cmap('Blues', n_layers)  # Schlumberger
+        cmap_s = get_cmap('Greens', n_layers)  # Schlumberger
         cmap_w = get_cmap('Reds', n_layers)   # Wenner
 
         # Découper AB2 en segments correspondant aux couches
@@ -214,9 +214,9 @@ with col1:
         # Tracer Schlumberger par segment avec couleurs propres
         for i, idx in enumerate(segments):
             ax.loglog(
-                AB2[idx], rho_app_s[idx], 'o-',
+                AB2[idx], rho_app_s[idx], 'x--',
                 color=cmap_s(i),
-                label=f'Schlumberger C{i+1}' if i == 0 else None
+                label=f'Schlumberger {i+1}' if i == 0 else None
             )
 
         # Tracer Wenner par segment avec couleurs propres
@@ -224,7 +224,7 @@ with col1:
             ax.loglog(
                 AB2[idx], rho_app_w[idx], 's--',
                 color=cmap_w(i),
-                label=f'Wenner C{i+1}' if i == 0 else None
+                label=f'Wenner {i+1}' if i == 0 else None
             )
 
         # Limites y autour des courbes
