@@ -124,6 +124,9 @@ for L, a_s in zip(AB2, MN2):
     M_s = np.r_[-(a_s - eps), 0.0, 0.0]
     N_s = np.r_[+(a_s - eps), 0.0, 0.0]
 
+    #Facteur k
+    k_s = 2*math.pi*a_s
+    
     rx_s = dc.receivers.Dipole(M_s, N_s, data_type="apparent_resistivity")
     src_s = dc.sources.Dipole([rx_s], A_s, B_s)
     src_list_s.append(src_s)
@@ -283,7 +286,7 @@ with col2:
     st.dataframe(model_df, use_container_width=True)
     
     Data_meh = pd.DataFrame({
-        "Facteur k": [k_w, k_w * 2],
+        "Facteur k": [k_w, k_s],
         "Schmilblick": [AB2[0], AB2[-1]],
         })
     st.dataframe(Data_meh, use_container_width=True)
