@@ -287,8 +287,9 @@ with col2:
     st.dataframe(model_df, use_container_width=True)
     
     Data_meh = pd.DataFrame({
+        Array": ["Wenner", "Schlumberger"],
         "Facteur k": [k_w, k_s],
-        }), index=["Wenner", "Schlumberger"])
+        })
     st.dataframe(Data_meh, use_container_width=True)
     
 
