@@ -205,8 +205,8 @@ with col1:
 
         # Générer des couleurs pour chaque courbe selon le nombre de couches
         from matplotlib.cm import get_cmap
-        cmap_s = get_cmap('Greens', n_layers)  # Schlumberger
-        cmap_w = get_cmap('Reds', n_layers)   # Wenner
+        cmap_s = get_cmap('Viridis', n_layers)  # Schlumberger
+        cmap_w = get_cmap('Magma', n_layers)   # Wenner
 
         # Découper AB2 en segments correspondant aux couches
         segments = np.array_split(np.arange(len(AB2)), n_layers)
