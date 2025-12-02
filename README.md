@@ -1,4 +1,4 @@
-# :zap : Schlumberger-Wenner
+# ⚡ : Schlumberger-Wenner
 
 A simple Streamlit app showing the the differences betwenn Schlumberger and Werner.
 
