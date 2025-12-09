@@ -125,7 +125,7 @@ for L, a_s in zip(AB2, MN2):
     N_s = np.r_[+(a_s - eps), 0.0, 0.0]
 
     #Calcul du facteur géométrique Schlumberger k_s
-    k_s = (math.pi*AB2**2-a_s**2)/(a_s)
+    k_s = math.pi*(AB2**2-a_s**2)/(a_s)
     
     rx_s = dc.receivers.Dipole(M_s, N_s, data_type="apparent_resistivity")
     src_s = dc.sources.Dipole([rx_s], A_s, B_s)
